@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Waxy.Entities;
+using Waxy.Repositories.ContainerRepository;
 
 namespace Waxy
 {
@@ -35,6 +36,12 @@ namespace Waxy
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Waxy", Version = "v1" });
             });
             services.AddDbContext<WaxyContext>(options => options.UseSqlServer("Data Source=DESKTOP-PRQEPFQ;Initial Catalog=Waxy;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            
+            services.AddTransient<IContainerRepository, ContainerRepository>();
+            
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
