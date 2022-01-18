@@ -12,9 +12,11 @@ namespace Waxy.Models.Entities
 
         public double Price { get; set; }
 
+        [MaxLength(25), Required]
         public string Scent { get; set; }
 
         public int ContainerId { get; set; }
+
         public Container Container { get; set; } //navigation property
 
         public ICollection <CandleIngredient> CandleIngredients{ get; set; }

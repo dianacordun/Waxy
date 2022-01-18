@@ -16,6 +16,8 @@ namespace Waxy.Entities
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<CandleIngredient> CandleIngredients{ get; set; }
         public DbSet<Label> Labels { get; set; }
+        public DbSet<Creator> Creators { get;  set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //One to Many Container-Candle

@@ -13,7 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Waxy.Entities;
+using Waxy.Repositories.CandleRepository;
 using Waxy.Repositories.ContainerRepository;
+using Waxy.Repositories.CreatorRepository;
 
 namespace Waxy
 {
@@ -35,10 +37,12 @@ namespace Waxy
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Waxy", Version = "v1" });
             });
-            services.AddDbContext<WaxyContext>(options => options.UseSqlServer("Data Source=DESKTOP-PRQEPFQ;Initial Catalog=Waxy;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddDbContext<WaxyContext>(options => options.UseSqlServer("Data Source=DESKTOP-PRQEPFQ;Initial Catalog=ProiectWaxy;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
             
             services.AddTransient<IContainerRepository, ContainerRepository>();
-            
+            services.AddTransient<ICreatorRepository, CreatorRepository>();
+            services.AddTransient<ICandleRepository, CandleRepository>();
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

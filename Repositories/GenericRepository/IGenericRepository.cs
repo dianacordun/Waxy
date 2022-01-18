@@ -26,7 +26,7 @@ namespace Waxy.Repositories
         void Delete(TEntity entity);
         void DeleteRange(IEnumerable<TEntity> entities);
 
-        //Sace
+        //Save
 
         Task<bool> SaveAsync();
     }

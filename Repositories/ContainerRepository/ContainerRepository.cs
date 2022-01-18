@@ -30,5 +30,18 @@ namespace Waxy.Repositories.ContainerRepository
                 //c = predicat, instanta de container
                 //aici am folosit linq where
         }
+
+     /*   problema--intorarce obiect anonim
+      *   public async Task<List<Container>> GetAllContainersWithQuote()
+        {
+            var containersWithQuotes = _context.Labels.Join(_context.Containers, l => l.ContainerId, c => c.Id, (l, c) => new
+            {
+                c.Id,
+                c.Color,
+                c.Material,
+                l.Quote
+            }).ToListAsync();
+            return await containersWithQuotes;
+        }*/
     }
 }

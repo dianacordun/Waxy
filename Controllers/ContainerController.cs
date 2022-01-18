@@ -41,6 +41,12 @@ namespace Waxy.Controllers
         {
             var container = await _repository.GetByIdAsync(id);
             //var container = await _repository.GetByIdWithLabel(id);
+            
+            if (container == null)
+            {
+                return NotFound("Container does not exist.");
+            }
+
             return Ok(new ContainerDTO(container));
         }
 
@@ -61,13 +67,15 @@ namespace Waxy.Controllers
             return NoContent();
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> CreateContainer(CreateContainerDTO dto)
+        public async Task<IActionResult> CreateContainer([FromBody] CreateContainerDTO dto)
         {
             Container contaierNew = new Container();
 
             contaierNew.Color = dto.Color;
-            //contaierNew.Label = dto.Label;
+            //contaierNew.Label = dto.Label; nu merge, n-are sens
+            contaierNew.Material = dto.Material;
 
             _repository.Create(contaierNew);
 
@@ -76,9 +84,25 @@ namespace Waxy.Controllers
             return Ok(new ContainerDTO(contaierNew));
 
         }
-    
-    //DTO-> eu din controller nu vreau sa returnez direct entitatea din db
-    //mapez datele de la o entitate 
+
+        [HttpPut("{id}-{color}")]
+        public async Task<IActionResult> UpdateContainer(int id, string color)
+        {
+
+            var updatedContainer = await _repository.GetByIdAsync(id);
+            updatedContainer.Color = color;
+
+            _repository.Update(updatedContainer);
+
+            await _repository.SaveAsync();
+
+            return Ok(new ContainerDTO(updatedContainer));
+
+        }
+
+
+        //DTO-> eu din controller nu vreau sa returnez direct entitatea din db
+        //mapez datele de la o entitate 
     }
 
 

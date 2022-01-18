@@ -12,5 +12,6 @@ namespace Waxy.Repositories.ContainerRepository
         Task<Container> GetByColor(string color);
         Task<Container> GetByIdWithLabel(int id);
         Task<List<Container>> GetAllContainersWithLabel();
+        //Task<List<Container>> GetAllContainersWithQuote();
     }
 }
