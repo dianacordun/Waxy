@@ -31,8 +31,8 @@ namespace Waxy.Repositories.ContainerRepository
                 //aici am folosit linq where
         }
 
-     /*   problema--intorarce obiect anonim
-      *   public async Task<List<Container>> GetAllContainersWithQuote()
+     //   problema--intorarce obiect anonim
+        /* public List<object> GetAllContainersWithQuote()
         {
             var containersWithQuotes = _context.Labels.Join(_context.Containers, l => l.ContainerId, c => c.Id, (l, c) => new
             {
@@ -40,8 +40,8 @@ namespace Waxy.Repositories.ContainerRepository
                 c.Color,
                 c.Material,
                 l.Quote
-            }).ToListAsync();
-            return await containersWithQuotes;
+            }).ToList();
+            return containersWithQuotes;
         }*/
     }
 }

@@ -8,5 +8,8 @@ namespace Waxy.Repositories.CandleRepository
 {
     public interface ICandleRepository : IGenericRepository<Candle>
     {
+        Task<List<Candle>> GetAllCandlesAsync();
+        Task<List<Candle>> GetCandlesOrderedByPrice();
+        //Task<List<Candle>> GetCandlesWithNrOfIngredients();
     }
 }
