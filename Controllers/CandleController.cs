@@ -28,9 +28,9 @@ namespace Waxy.Controllers
 
             var candlesToReturn = new List<CandleDTO>();
 
-            foreach (var creator in candles)
+            foreach (var candle in candles)
             {
-                candlesToReturn.Add(new CandleDTO(creator));
+                candlesToReturn.Add(new CandleDTO(candle));
             }
 
             return Ok(candlesToReturn);
@@ -43,13 +43,34 @@ namespace Waxy.Controllers
 
             var candlesToReturn = new List<CandleDTO>();
 
-            foreach (var creator in candles)
+            foreach (var candle in candles)
             {
-                candlesToReturn.Add(new CandleDTO(creator));
+                candlesToReturn.Add(new CandleDTO(candle));
             }
 
             return Ok(candlesToReturn);
         }
+
+        [HttpGet("ingredient-number")]
+        public async Task<IActionResult> GetCandlesWithNrOfIngredients()
+        {
+            var candles = await _repository.GetAllCandlesAsync();
+
+            var candlesToReturn = new List<CandleDTO>();
+
+            foreach (var candle in candles)
+            {
+                candlesToReturn.Add(new CandleDTO(candle));
+            }
+
+            var orderdedCandles = candlesToReturn.GroupBy(
+                c => c.Id,
+                //c => c.Scent,
+                c => c.CandleIngredients,
+                (key, i) => new { CandleId = key, IngredientCount = i.ToList().Count  }) ;
+
+           return Ok(orderdedCandles);
+       }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCandle(int id)

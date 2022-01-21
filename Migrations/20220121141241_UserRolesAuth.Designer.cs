@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Waxy.Entities;
 
 namespace Waxy.Migrations
 {
     [DbContext(typeof(WaxyContext))]
-    partial class WaxyContextModelSnapshot : ModelSnapshot
+    [Migration("20220121141241_UserRolesAuth")]
+    partial class UserRolesAuth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,24 +267,6 @@ namespace Waxy.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Waxy.Models.Entities.SessionToken", b =>
-                {
-                    b.Property<string>("Jti")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Jti");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SessionTokens");
-                });
-
             modelBuilder.Entity("Waxy.Models.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -454,17 +438,6 @@ namespace Waxy.Migrations
                     b.Navigation("Container");
 
                     b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("Waxy.Models.Entities.SessionToken", b =>
-                {
-                    b.HasOne("Waxy.Models.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Waxy.Models.Entities.UserRole", b =>

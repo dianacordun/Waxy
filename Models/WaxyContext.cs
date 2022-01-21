@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +9,11 @@ using Waxy.Models.Entities;
 
 namespace Waxy.Entities
 {
-    public class WaxyContext : DbContext
+    public class WaxyContext : IdentityDbContext<User, Role, int,
+           IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
+           IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
+  
         public WaxyContext(DbContextOptions<WaxyContext> options) : base(options) { }
 
         public DbSet<Candle> Candles { get; set; }
@@ -17,6 +22,7 @@ namespace Waxy.Entities
         public DbSet<CandleIngredient> CandleIngredients{ get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Creator> Creators { get;  set; }
+        public DbSet<SessionToken> SessionTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,7 +36,7 @@ namespace Waxy.Entities
                 .HasOne(c => c.Label)
                 .WithOne(l => l.Container);
 
-            //Many to Many Candle-Ingredients
+            //Many to Many Candle-Ingredient
             modelBuilder.Entity<CandleIngredient>().HasKey(ci => new { ci.CandleId, ci.IngredientId });
 
             modelBuilder.Entity<CandleIngredient>()
@@ -48,10 +54,19 @@ namespace Waxy.Entities
                .HasMany(c => c.Labels)
                .WithOne(l => l.Creator);
 
+            //Many to Many User-Role
+           
 
             base.OnModelCreating(modelBuilder);
 
-            
+            modelBuilder.Entity<UserRole>(ur =>
+            {
+                ur.HasKey(ur => new { ur.UserId, ur.RoleId });
+                ur.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId);
+                ur.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
+
+            });
+
         }
     }
 }
