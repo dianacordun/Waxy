@@ -24,7 +24,7 @@ namespace Waxy.Controllers
         //Authorize-doar sa fie autentificat
         //Anonymous - oricine (Roles = "User")
         //[Authorize]
-        //[Authorize(Policy = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _repository.GetAllUsers();

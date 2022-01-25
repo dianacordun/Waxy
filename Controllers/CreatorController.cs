@@ -15,7 +15,7 @@ namespace Waxy.Controllers
     public class CreatorController : ControllerBase
     {
         private readonly ICreatorRepository _repository;
-        //Dependency injection : injectam in controller repository ul
+       
         public CreatorController(ICreatorRepository repository)
         {
             _repository = repository;

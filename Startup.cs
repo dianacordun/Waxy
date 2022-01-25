@@ -48,6 +48,7 @@ namespace Waxy
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Waxy", Version = "v1" });
             });
+
             services.AddDbContext<WaxyContext>(options => options.UseSqlServer("Data Source=DESKTOP-PRQEPFQ;Initial Catalog=ProiectWaxy;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddIdentity<User, Role>()
@@ -67,35 +68,38 @@ namespace Waxy
                 auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
-            {
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom secret key for auth")),
-                    ValidateIssuerSigningKey = true
-                };
-                options.Events = new JwtBearerEvents()
-                {
-                    OnTokenValidated = Helpers.SessionTokenValidator.ValidateSessionToken
-                };
-            }); 
+           {
+               options.SaveToken = true;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = false,
+                   ValidateAudience = false,
+                   ValidateLifetime = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom secret key for auth")),
+                   ValidateIssuerSigningKey = true
+
+               };
+               options.Events = new JwtBearerEvents()
+               {
+                   OnTokenValidated = Helpers.SessionTokenValidator.ValidateSessionToken
+               };
+           });
+
+            
 
             services.AddTransient<IContainerRepository, ContainerRepository>();
             services.AddTransient<ICreatorRepository, CreatorRepository>();
             services.AddTransient<ICandleRepository, CandleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISessionTokenRepository, SessionTokenRepository>();
-            //services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<SeedDb>();
-           
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,9 +114,11 @@ namespace Waxy
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
 
+            app.UseRouting();
+      
             app.UseAuthentication();
+      
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -21,7 +21,7 @@ namespace Waxy.Repositories.CandleRepository
         public async Task<List<Candle>> GetCandlesOrderedByPrice()
         {
             var orderedCandles = _context.Candles
-                //.Where(c => c.CandleIngredients.Count > 0) //care au mai mult de un ingredient
+                .Where(c => c.Price > 70) //au pretul mai mare de 70
                 .OrderBy(c => c.Price)
                 .ToListAsync();
 

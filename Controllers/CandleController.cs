@@ -51,8 +51,8 @@ namespace Waxy.Controllers
             return Ok(candlesToReturn);
         }
 
-        [HttpGet("ingredient-number")]
-        public async Task<IActionResult> GetCandlesWithNrOfIngredients()
+        [HttpGet("scent-number")]
+        public async Task<IActionResult> GetNrOfScents()
         {
             var candles = await _repository.GetAllCandlesAsync();
 
@@ -62,12 +62,9 @@ namespace Waxy.Controllers
             {
                 candlesToReturn.Add(new CandleDTO(candle));
             }
-
             var orderdedCandles = candlesToReturn.GroupBy(
-                c => c.Id,
-                //c => c.Scent,
-                c => c.CandleIngredients,
-                (key, i) => new { CandleId = key, IngredientCount = i.ToList().Count  }) ;
+                c => c.Scent,
+                (key, i) => new { CandleScent = key, CandleCount = i.ToList().Count  }) ;
 
            return Ok(orderdedCandles);
        }
